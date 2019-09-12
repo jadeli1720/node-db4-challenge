@@ -1,7 +1,7 @@
 
 exports.up = function (knex) {
     return knex.schema
-        .createTable('recipe', tbl => {
+        .createTable('recipes', tbl => {
             //PK
             tbl.increments();
             //name
@@ -18,32 +18,45 @@ exports.up = function (knex) {
         })
 
         .createTable('recipe_ingredients', tbl => {
-            //FK
+            //fk
             tbl
                 .integer('recipe_id')
                 .unsigned()
                 .references('id')
-                .inTable('recipe')
+                .inTable('recipes')
                 .onDelete('CASCADE')// if the PK record is deleted
                 .onUpdate('CASCADE')// if the PK record is updates
 
-            //FK
+            //fk
             tbl
-                .integer('ingredients_id')
+                .integer('ingredient_id')
                 .unsigned()
                 .references('id')
                 .inTable('ingredients')
                 .onDelete('CASCADE')// if the PK record is deleted
                 .onUpdate('CASCADE')// if the PK record is updates
 
-            //Composite Key: composes fo the FK's from above. Will be unique
-            tbl.primary(['recipe_id', 'ingredients_id'])
+            //composite key
+            tbl.primary(['recipe_id', 'ingredient_id'])
+
+            //quantity
+            tbl
+                .float('quantity')
+                .notNullable()
+
+            //measurements
+            tbl
+                .string('measurements')
         })
+
+
 };
 
 exports.down = function (knex) {
     return knex.schema
-        .dropTableIfExists('ingredients_id')
+        .dropTableIfExists('recipe_ingredients')
         .dropTableIfExists('ingredients')
-        .dropTableIfExists('recipe')
+        .dropTableIfExists('recipes')
+
 };
+
