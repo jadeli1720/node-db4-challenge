@@ -1,5 +1,6 @@
 
 exports.seed = function(knex) {
+
   return knex('ingredients').insert([
     {ingredients_name:"mangos"},
     {ingredients_name:"roma tomatoes"},
@@ -12,5 +13,5 @@ exports.seed = function(knex) {
     {ingredients_name:"salt"},
     {ingredients_name:"pepper"},
   ])
-    
+
 };
